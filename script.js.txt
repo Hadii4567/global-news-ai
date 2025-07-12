@@ -1,0 +1,122 @@
+const articles = [
+  { id: 1, title: "AI Revolutionizes News Industry", content: "AI is changing how news is generated...", keywords: "AI news, technology trends", date: "2025-07-12" },
+  { id: 2, title: "Global Markets Surge", content: "Stock markets hit record highs...", keywords: "global markets, finance news", date: "2025-07-12" }
+];
+
+function generateArticle() {
+  const trends = ["AI technology", "global economy", "climate change", "space exploration"];
+  const title = `Breaking: ${trends[Math.floor(Math.random() * trends.length)]} Update`;
+  const content = `This is an AI-generated article about ${title}. Stay tuned for more updates.`;
+  const keywords = trends.join(", ");
+  const newArticle = { id: articles.length + 1, title, content, keywords, date: new Date().toISOString().split("T")[0] };
+  articles.push(newArticle);
+  displayArticles();
+}
+
+function displayArticles() {
+  const articleSection = document.getElementById("articles");
+  articleSection.innerHTML = "";
+  articles.forEach(article => {
+    const articleDiv = document.createElement("div");
+    articleDiv.className = "bg-white p-4 rounded shadow";
+    articleDiv.innerHTML = `
+      <h2 class="text-xl font-bold">${article.title}</h2>
+      <p class="text-gray-600">${article.date}</p>
+      <p>${article.content}</p>
+      <p class="text-sm text-gray-500">Keywords: ${article.keywords}</p>
+    `;
+    articleSection.appendChild(articleDiv);
+  });
+}
+
+function displayAdminArticles() {
+  const articleList = document.getElementById("article-list");
+  articleList.innerHTML = "";
+  articles.forEach(article => {
+    const articleDiv = document.createElement("div");
+    articleDiv.className = "border p-2 mb-2";
+    articleDiv.innerHTML = `
+      <h3>${article.title}</h3>
+      <button onclick="editArticle(${article.id})" class="bg-yellow-500 text-white p-1">Edit</button>
+      <button onclick="deleteArticle(${article.id})" class="bg-red-500 text-white p-1">Delete</button>
+    `;
+    articleList.appendChild(articleDiv);
+  });
+}
+
+function addArticle() {
+  const title = document.getElementById("article-title").value;
+  const content = document.getElementById("article-content").value;
+  const keywords = document.getElementById("article-keywords").value;
+  if (title && content && keywords) {
+    articles.push({ id: articles.length + 1, title, content, keywords, date: new Date().toISOString().split("T")[0] });
+    displayAdminArticles();
+    clearArticleForm();
+  } else {
+    alert("Please fill all fields");
+  }
+}
+
+function editArticle(id) {
+  const article = articles.find(a => a.id === id);
+  document.getElementById("article-title").value = article.title;
+  document.getElementById("article-content").value = article.content;
+  document.getElementById("article-keywords").value = article.keywords;
+  deleteArticle(id);
+}
+
+function deleteArticle(id) {
+  const index = articles.findIndex(a => a.id === id);
+  articles.splice(index, 1);
+  displayAdminArticles();
+}
+
+function clearArticleForm() {
+  document.getElementById("article-title").value = "";
+  document.getElementById("article-content").value = "";
+  document.getElementById("article-keywords").value = "";
+}
+
+function updateSiteName() {
+  const name = document.getElementById("site-name-input").value;
+  if (name) {
+    document.getElementById("site-title").textContent = name;
+    localStorage.setItem("siteName", name);
+  }
+}
+
+function updateSiteLogo() {
+  const logoUrl = document.getElementById("site-logo-input").value;
+  if (logoUrl) {
+    document.getElementById("site-logo").src = logoUrl;
+    localStorage.setItem("siteLogo", logoUrl);
+  }
+}
+
+function addAd() {
+  const adCode = document.getElementById("ad-code").value;
+  if (adCode) {
+    const adList = document.getElementById("ad-list");
+    const adDiv = document.createElement("div");
+    adDiv.className = "border p-2 mb-2";
+    adDiv.innerHTML = adCode + `<button onclick="this.parentElement.remove()" class="bg-red-500 text-white p-1">Remove Ad</button>`;
+    adList.appendChild(adDiv);
+  }
+}
+
+if (window.location.pathname.includes("admin")) {
+  window.onload = () => {
+    displayAdminArticles();
+  };
+} else {
+  window.onload = () => {
+    displayArticles();
+    if (localStorage.getItem("siteName")) {
+      document.getElementById("site-title").textContent = localStorage.getItem("siteName");
+    }
+    if (localStorage.getItem("siteLogo")) {
+      document.getElementById("site-logo").src = localStorage.getItem("siteLogo");
+    }
+    setInterval(generateArticle, 3600000); // Generate article every hour
+  };
+}

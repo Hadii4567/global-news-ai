@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Global News AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <header class="bg-blue-600 text-white p-4">
+    <h1 class="text-3xl font-bold text-center">Admin Dashboard</h1>
+  </header>
+  <main class="container mx-auto p-4">
+    <section class="bg-white p-6 rounded shadow">
+      <h2 class="text-2xl font-bold mb-4">Site Customization</h2>
+      <div class="mb-4">
+        <label class="block mb-2">Site Name:</label>
+        <input id="site-name-input" type="text" class="border p-2 w-full" placeholder="Enter site name">
+        <button onclick="updateSiteName()" class="bg-blue-500 text-white p-2 mt-2">Update Name</button>
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2">Site Logo URL:</label>
+        <input id="site-logo-input" type="text" class="border p-2 w-full" placeholder="Enter logo URL">
+        <button onclick="updateSiteLogo()" class="bg-blue-500 text-white p-2 mt-2">Update Logo</button>
+      </div>
+    </section>
+    <section class="bg-white p-6 rounded shadow mt-4">
+      <h2 class="text-2xl font-bold mb-4">Manage Articles</h2>
+      <div id="article-list" class="mb-4"></div>
+      <div>
+        <h3 class="text-xl font-bold mb-2">Add/Edit Article</h3>
+        <input id="article-title" type="text" class="border p-2 w-full mb-2" placeholder="Article Title">
+        <textarea id="article-content" class="border p-2 w-full mb-2" rows="5" placeholder="Article Content"></textarea>
+        <input id="article-keywords" type="text" class="border p-2 w-full mb-2" placeholder="SEO Keywords (comma-separated)">
+        <button onclick="addArticle()" class="bg-green-500 text-white p-2">Add Article</button>
+        <button onclick="clearArticleForm()" class="bg-gray-500 text-white p-2">Clear</button>
+      </div>
+    </section>
+    <section class="bg-white p-6 rounded shadow mt-4">
+      <h2 class="text-2xl font-bold mb-4">Manage Ads</h2>
+      <div>
+        <label class="block mb-2">Ad Code (HTML):</label>
+        <textarea id="ad-code" class="border p-2 w-full" rows="5" placeholder="Paste ad code here"></textarea>
+        <button onclick="addAd()" class="bg-blue-500 text-white p-2 mt-2">Add Ad</button>
+      </div>
+      <div id="ad-list" class="mt-4"></div>
+    </section>
+  </main>
+</body>
+</html>
